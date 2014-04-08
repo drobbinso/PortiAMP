@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="About PortiAMP">
+	<s:actionContent>
+		<s:Button icon="@Embed(source='graphics/Info_btn.png')" click="navigator.popView()" />
+	</s:actionContent>
+	
+	<!--This section will have to be modified if you wish this application to look good on other devices
+	    like the BlackBerry Playbook or iOS devices.  Using Flash Builder 4.5.1 and later, you may cross
+	    compile this for multiple devices profiles.
+	  -->
+	<s:BorderContainer left="0" right="0" top="0" bottom="0" backgroundImage="graphics/background2.png">
+		<s:Label x="21" y="216" fontSize="20" text="PortiAMP is an open source application"/>
+		<s:Label x="21" y="241" fontSize="20" text="built using Adobe AIR in order to allow"/>
+		<s:Label x="21" y="266" fontSize="20" text="musicians to take more freedom in exercising"/>
+		<s:Label x="21" y="291" fontSize="20" text="their talents.&#xd;"/>
+		<s:Label x="21" y="316" fontSize="20" text="&#xd;As for the future of PortiAMP, development will&#xd;continue, with a fully functional app available on&#xd;the Android Market (now Google Play) as the&#xd;final goal.&#xd;"/>
+		<s:Label x="21" y="457" fontSize="20" text="For now, source code may be obtained at:"/>
+		<s:Label x="23" y="484" fontSize="20" text="http://dakota.posterous.com"/>
+		<s:Image x="21" y="40" width="128" height="128"
+				 source="graphics/icon/ic_launcher_amp128x128.png"/>
+		<s:Label x="21" y="17" fontSize="20" text="PortiAMP"/>
+		
+		
+		<s:Button x="42" y="536" label="Back" click="navigator.popView()" fontWeight="bold"
+				  styleName="back"/>
+		
+	</s:BorderContainer>
+
+	</s:View>

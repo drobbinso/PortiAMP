@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="PortiAMP Home">
+	<s:layout>
+		<s:ViewMenuLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+		<s:VGroup x="0" y="0" height="695" contentBackgroundColor="0x8888AA" gap="8"
+				  horizontalAlign="center" verticalAlign="middle">
+			
+			<s:Label text="Select an option..."/>
+			<s:Spacer width="10" height="43"/>
+			<s:Button x="86" width="150" height="40" label="Jam Out" click="navigator.pushView(AmpView)"
+					  fontFamily="_typewriter" fontSize="20" fontStyle="normal" lineThrough="false"
+					  textDecoration="none"/>
+			<s:Button x="34" width="252" height="40" label="Recording Session"
+					  click="navigator.pushView(RecordView)" fontFamily="_typewriter" fontSize="20"
+					  fontStyle="normal" lineThrough="false" textDecoration="none"/>
+			<s:Button x="146" width="188" height="40" label="Tune Your Axe"
+					  click="navigator.pushView(TunerView)" fontFamily="_typewriter" fontSize="18"
+					  fontStyle="normal"/>
+			<s:Button width="188" height="40" label="About PortiAMP"
+					  click="navigator.pushView(InfoView)" fontFamily="_typewriter" fontSize="18"
+					  fontStyle="normal"/>
+			<s:Spacer x="113" width="94" height="65"/>
+			<s:Button label="Back" click="navigator.popView()" fontSize="14" fontWeight="bold"
+					  styleName="back"/>
+			<s:Spacer width="10" height="18"/>
+			
+		</s:VGroup>
+</s:View>

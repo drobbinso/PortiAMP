@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		creationComplete="viewCreated(event)" exitState="ampView_exitStateHandler(event)"
+		title="PortiAMP">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:VGroup width="100%" height="761" horizontalAlign="center" verticalAlign="top">
+		<s:Spacer width="10" height="10"/>
+		<s:Label fontFamily="_typewriter" fontSize="18" fontStyle="italic" fontWeight="bold"
+				 text="PortiAMP Portible Amplifier" textAlign="left" textDecoration="underline"
+				 verticalAlign="top"/>
+		<s:Spacer width="10" height="10"/>
+		<s:Button id="recButton" x="109" y="40" width="102" height="102" label="Start Rec"
+				  click="startJamming()" enabled="true" icon="graphics/PlayOff_btn.png"/>
+		<s:Spacer width="38" height="26"/>
+		<s:Image x="97" width="300" height="400" source="graphics/bassGuitar.jpg"/>
+		<s:Button label="Back" click="navigator.popView()" fontWeight="bold" styleName="back"/>
+	</s:VGroup>
+	<s:Spacer width="10" height="10"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			private var mic:Microphone = Microphone.getMicrophone(-1);
+			private var recordedBytes:ByteArray;
+			private var s:Sound;
+			
+			private var recording:Boolean = false;
+			
+			protected function startJamming():void {
+				trace("Mics: " + Microphone.names);
+				if(!recording) {
+					togglePlayButton();
+					recButton.setStyle("icon", "graphics/Play_btn.png");
+					mic.rate = 44;
+					mic.setSilenceLevel(0, 4000);
+					mic.addEventListener(SampleDataEvent.SAMPLE_DATA, getMicAudio);
+					recordedBytes = new ByteArray();
+				}
+				else if(recording) {
+					mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, getMicAudio);
+					recButton.setStyle("icon", "graphics/PlayOff_btn.png");
+					togglePlayButton();
+				}
+			}
+			
+			protected function togglePlayButton():void {
+				recording = !recording;
+			}
+				
+			protected function getMicAudio(event:SampleDataEvent):void
+			{
+					var sample:Number = event.data.readFloat();
+					recordedBytes.writeBytes(event.data);
+					playSound(recordedBytes);
+					recordedBytes = new ByteArray();
+			}
+				
+			protected function playSound(nextBytes:ByteArray):void
+			{
+				if (nextBytes.length > 0)
+				{
+					recordedBytes.position = 0;
+					s = new Sound();
+					s.addEventListener(SampleDataEvent.SAMPLE_DATA, playRecorded);
+					var channel:SoundChannel;
+					channel = s.play();
+					//channel.addEventListener(Event.SOUND_COMPLETE, stopPlayback);
+				}
+			}
+			
+			private function stopPlayback(event:Event):void
+			{
+				recording = !recording;
+			}
+			
+			private function playRecorded(e:SampleDataEvent): void
+			{
+				if (!recordedBytes.bytesAvailable > 0)
+					return;
+				var length:int = 8192;
+				for (var i:int = 0; i < length; i++)
+				{
+					var sample:Number = 0;
+					if (recordedBytes.bytesAvailable > 0) sample = recordedBytes.readFloat();
+					e.data.writeFloat(sample);
+					e.data.writeFloat(sample);
+				}
+			}
+			
+			protected function stopJamming():void {
+				SoundMixer.stopAll();
+			}
+			
+			protected function refreshMicsButton(event:MouseEvent):void
+			{
+				mic = Microphone.getMicrophone(-1)
+			}
+			
+			protected function ampView_exitStateHandler(event:FlexEvent):void
+			{
+				stopJamming();
+				event.stopImmediatePropagation();
+			}
+			
+			protected function viewCreated(event:FlexEvent):void
+			{
+				SoundMixer.audioPlaybackMode = AudioPlaybackMode.MEDIA;
+				SoundMixer.useSpeakerphoneForVoice = true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+</s:View>
